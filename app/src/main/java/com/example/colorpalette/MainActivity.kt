@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -76,7 +78,11 @@ fun ScreenMain() {
                 .height(64.dp)
             )
 
-            ColorDisplay(color = viewModel.currentColor)
+            ColorDisplay(color = Color(
+                red = viewModel.redColor,
+                green = viewModel.greenColor,
+                blue = viewModel.blueColor,
+            ))
 
             Spacer(modifier = Modifier
                 .height(32.dp)
@@ -85,7 +91,28 @@ fun ScreenMain() {
             Button(
                 onClick = { viewModel.generateRandomColor() }
             ) {
-                Text(text = "Сгенерировать цвет")
+                Text(text = "Случайный")
+            }
+
+            Spacer(modifier = Modifier
+                .height(32.dp)
+            )
+
+            Column(
+                modifier = Modifier.width(250.dp)
+            ) {
+                Slider(
+                    value = viewModel.redColor.toFloat() / 255,
+                    onValueChange = { viewModel.redColor = (it * 255).toInt() }
+                )
+                Slider(
+                    value = viewModel.greenColor.toFloat() / 255,
+                    onValueChange = { viewModel.greenColor = (it * 255).toInt() }
+                )
+                Slider(
+                    value = viewModel.blueColor.toFloat() / 255,
+                    onValueChange = { viewModel.blueColor = (it * 255).toInt() }
+                )
             }
         }
     }
