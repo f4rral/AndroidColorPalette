@@ -17,15 +17,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.colorpalette.ui.theme.ColorPaletteTheme
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +33,6 @@ class MainActivity : ComponentActivity() {
             ScreenMain()
         }
     }
-}
-
-private fun generateRandomColor(): Color {
-   return Color(
-       red = Random.nextInt(0, 255),
-       blue = Random.nextInt(0, 255),
-       green = Random.nextInt(0, 255),
-   )
 }
 
 @Composable
@@ -65,14 +55,18 @@ fun ColorDisplay(color: Color) {
                 )
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "RGB(${(color.red * 255).toInt()}, ${(color.green * 255).toInt()}, ${(color.blue * 255).toInt()})")
+        Text(text = "RGB(" +
+            "${(color.red * 255).toInt()}, " +
+            "${(color.green * 255).toInt()}, " +
+            "${(color.blue * 255).toInt()})"
+        )
     }
 }
 
 @Composable
 fun ScreenMain() {
     ScreenLayout {
-        val currentColor = remember { mutableStateOf(Color.Black) }
+        val viewModel: ColorPaletteViewModel = viewModel()
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,14 +76,14 @@ fun ScreenMain() {
                 .height(64.dp)
             )
 
-            ColorDisplay(color = currentColor.value)
+            ColorDisplay(color = viewModel.currentColor)
 
             Spacer(modifier = Modifier
                 .height(32.dp)
             )
 
             Button(
-                onClick = { currentColor.value = generateRandomColor() }
+                onClick = { viewModel.generateRandomColor() }
             ) {
                 Text(text = "Сгенерировать цвет")
             }
