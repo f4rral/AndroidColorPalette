@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -95,7 +96,7 @@ fun ColorPalette(
         }
     } else {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -148,14 +149,23 @@ fun ScreenMain() {
 
                         Slider(
                             value = viewModel.redColor.toFloat() / 255,
+                            colors = SliderDefaults.colors(
+                                thumbColor = Color(viewModel.redColor, 0, 0),
+                            ),
                             onValueChange = { viewModel.redColor = (it * 255).toInt() }
                         )
                         Slider(
                             value = viewModel.greenColor.toFloat() / 255,
+                            colors = SliderDefaults.colors(
+                                thumbColor = Color(0, viewModel.greenColor, 0),
+                            ),
                             onValueChange = { viewModel.greenColor = (it * 255).toInt() }
                         )
                         Slider(
                             value = viewModel.blueColor.toFloat() / 255,
+                            colors = SliderDefaults.colors(
+                                thumbColor = Color(0, 0, viewModel.blueColor),
+                            ),
                             onValueChange = { viewModel.blueColor = (it * 255).toInt() }
                         )
                     }
@@ -185,7 +195,9 @@ fun ScreenLayout(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true, showBackground = true,
+    device = "spec:parent=pixel_5,orientation=landscape"
+)
 @Composable
 fun GreetingPreview() {
     ScreenMain()
