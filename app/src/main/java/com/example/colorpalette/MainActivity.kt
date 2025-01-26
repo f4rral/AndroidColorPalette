@@ -195,9 +195,7 @@ fun ScreenLayout(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true,
-    device = "spec:parent=pixel_5,orientation=landscape"
-)
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun GreetingPreview() {
     ScreenMain()
